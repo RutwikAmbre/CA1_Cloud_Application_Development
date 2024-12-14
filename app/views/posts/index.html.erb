@@ -1,0 +1,20 @@
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Posts</h1>
+  
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <img class="card-img-top" src="<%= post.image_url %>" alt="Card image">
+          <div class="card-body">
+            <h5 class="card-title"><%= post.title %></h5>
+            <p class="card-text"><%= truncate(post.content, length: 100) %></p>
+            <a href="<%= post_path(post) %>" class="btn btn-primary">Read More</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
