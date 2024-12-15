@@ -10,7 +10,7 @@ const PostForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://ec2-18-232-87-216.compute-1.amazonaws.com:3000', {
+      const response = await axios.post('http://ec2-18-232-87-216.compute-1.amazonaws.com:3000/posts', {
         post: { title, content },
       });
       console.log('Post created:', response.data);
