@@ -8,7 +8,7 @@ function PostList() {
 
   useEffect(() => {
     // Fetch posts from the Rails backend API
-    axios.get('http://localhost:3000/posts')  // Specify the full API URL with the correct port
+    axios.get('http://ec2-18-232-87-216.compute-1.amazonaws.com:3000')  // Specify the full API URL with the correct port
       .then(response => {
         setPosts(response.data);
       })
