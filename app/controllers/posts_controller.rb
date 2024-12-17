@@ -56,13 +56,22 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
-    respond_to do |format|
+    if @post # Explicitly use @post. This satisfies Rails 7.1's check
       if @post.update(post_params)
-        format.html { redirect_to @post, notice: "Post was successfully updated." }
-        format.json { render :show, status: :ok, location: @post }
+        respond_to do |format|
+          format.html { redirect_to @post, notice: "Post was successfully updated." }
+          format.json { render :show, status: :ok, location: @post }
+        end
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        respond_to do |format|
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @post.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to posts_path, alert: "Post not found." }
+        format.json { render json: { error: 'Post not found' }, status: :not_found }
       end
     end
   end
