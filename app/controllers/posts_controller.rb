@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
 
   skip_before_action :verify_authenticity_token, only: [:create]
-  before_action :set_post, only: %i[edit update destroy]
+  before_action :set_post, only: %i[show edit update destroy]
 
   # GET /posts or /posts.json
   def index
