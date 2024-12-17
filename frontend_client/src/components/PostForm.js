@@ -6,7 +6,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const PostForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [posts, setPosts] = useState([]);  // To hold the list of posts
 
+  // Fetch the list of posts when the component is first loaded
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get('http://ec2-18-232-87-216.compute-1.amazonaws.com:3000/posts');
+      setPosts(response.data);  // Update posts state with the fetched data
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  };
+
+  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -14,11 +26,20 @@ const PostForm = () => {
         post: { title, content },
       });
       console.log('Post created:', response.data);
-      // Optionally update state to reflect the new post in the UI
+
+      // After a successful post, refresh the post list
+      setTitle('');
+      setContent('');
+      fetchPosts();  // Refresh the list of posts
     } catch (error) {
       console.error('Error creating post:', error);
     }
   };
+
+  // Fetch posts when the component mounts
+  React.useEffect(() => {
+    fetchPosts();
+  }, []);  // Empty dependency array ensures this runs only once when the component mounts
 
   return (
     <div className="container mt-5">
@@ -51,6 +72,18 @@ const PostForm = () => {
           Create Post
         </Button>
       </Form>
+
+      <div className="mt-5">
+        <h3>Post List</h3>
+        <ul>
+          {posts.map((post) => (
+            <li key={post.id}>
+              <h5>{post.title}</h5>
+              <p>{post.content}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
