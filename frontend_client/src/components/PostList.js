@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, ListGroup, Alert } from 'react-bootstrap';
 
+const API_URL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_LOCAL_API_URL : process.env.REACT_APP_PROD_API_URL;
+
 function PostList() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     // Fetch posts from the Rails backend API
-    axios.get('http://54.85.241.65:3000/posts')  // Specify the full API URL with the correct port
+    axios.get(`${API_URL}/posts`)  // Specify the full API URL with the correct port
       .then(response => {
         setPosts(response.data);
       })

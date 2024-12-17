@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const API_URL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_LOCAL_API_URL : process.env.REACT_APP_PROD_API_URL;
+
 const PostForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -11,7 +13,7 @@ const PostForm = () => {
   // Fetch the list of posts when the component is first loaded
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('http://54.85.241.65:3000/posts');
+      const response = await axios.get(`${API_URL}/posts`);
       setPosts(response.data);  // Update posts state with the fetched data
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -22,7 +24,7 @@ const PostForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://54.85.241.65:3000/posts', {
+      const response = await axios.post(`${API_URL}/posts`, {
         post: { title, content },
       });
       console.log('Post created:', response.data);
