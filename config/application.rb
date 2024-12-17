@@ -10,6 +10,10 @@ module BlogApp
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
+
+    config.assets.compile = true
+    config.assets.precompile += %w( application.js application.css )
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*' # Replace '*' with specific origins if needed

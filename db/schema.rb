@@ -17,6 +17,5 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_06_172020) do
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 end

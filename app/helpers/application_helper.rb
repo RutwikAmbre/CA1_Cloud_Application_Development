@@ -1,2 +1,6 @@
+# app/helpers/application_helper.rb
 module ApplicationHelper
-end
+    def assembly_to_s(assembly)
+      "Assembly with ID: #{assembly.id} and name: #{assembly.name}"
+    end
+  end
