@@ -11,7 +11,7 @@ const PostForm = () => {
   // Fetch the list of posts when the component is first loaded
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('http://ec2-18-232-87-216.compute-1.amazonaws.com:3000/posts');
+      const response = await axios.get('http://54.85.241.65:3000/posts');
       setPosts(response.data);  // Update posts state with the fetched data
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -22,7 +22,7 @@ const PostForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://ec2-18-232-87-216.compute-1.amazonaws.com:3000/posts', {
+      const response = await axios.post('http://54.85.241.65:3000/posts', {
         post: { title, content },
       });
       console.log('Post created:', response.data);

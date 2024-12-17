@@ -11,8 +11,14 @@ class PostsController < ApplicationController
 
   # GET /posts/1 or /posts/1.json
   def show
-    @post = Post.friendly.find(params[:id])
-    render json: @post
+    respond_to do |format|
+      if @post
+        format.html { render :show } #Render HTML view
+        format.json { render json: @post }
+      else
+        format.json { render json: { error: 'Post not found' }, status: :not_found }
+      end
+    end
   end
 
   # GET /posts/new
@@ -22,6 +28,15 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+    respond_to do |format|
+      if @post
+        format.html { render :edit } #Render HTML view
+        format.json { render json: @post }
+      else
+        format.json { render json: { error: 'Post not found' }, status: :not_found }
+      end
+    end
+  end
   end
 
   # POST /posts or /posts.json
@@ -66,9 +81,11 @@ class PostsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.friendly.find_by(id: params[:id])
-      if @post.nil?
-        render json: { error: 'Post not found' }, status: :not_found
-      end
+      unless @post
+        respond_to do |format|
+          format.html { redirect_to posts_path, alert: "Post not found." }
+          format.json { render json: { error: 'Post not found' }, status: :not_found }
+        end
     end
 
     # Only allow a list of trusted parameters through.
