@@ -17,6 +17,17 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
+      - name: Check if AWS CLI is already installed
+        run: |
+          if ! command -v aws &> /dev/null; then
+            echo "AWS CLI not found, installing..."
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+          else
+            echo "AWS CLI is already installed."
+          fi
+      
       - name: Install AWS CLI
         run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
