@@ -57,12 +57,24 @@ jobs:
 
       - name: Security audit dependencies
         run: bundle exec bundle audit --update
+      
+      - name: Set execute permissions for brakeman
+        run: chmod +x bin/*
 
       - name: Security audit application code
         run: bundle exec brakeman -q -w2
 
       - name: Lint Ruby files
         run: bundle exec rubocop --auto-correct-all --disable-uncorrectable
+        
+      - name: Check if importmap exists and run audit
+        run: |
+          if [ -f bin/importmap ]; then
+            bin/importmap audit
+          else
+            echo "bin/importmap not found, skipping importmap audit."
+          fi
+
 
   deploy:
   runs-on: ubuntu-latest
