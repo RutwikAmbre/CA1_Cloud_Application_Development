@@ -60,7 +60,7 @@ group :development, :test do
    gem "brakeman", require: true
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-   gem "rubocop-rails-omakase", require: true
+   gem "rubocop-rails", require: true
 end
 
 group :development do

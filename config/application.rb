@@ -28,6 +28,8 @@ module BlogApp
 
     #config.assets.compile = true
 
+    config.api_only = true
+
     config.assets.precompile += %w( application.js application.css )
 
     config.middleware.insert_before 0, Rack::Cors do

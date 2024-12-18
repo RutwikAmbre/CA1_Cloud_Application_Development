@@ -12,9 +12,11 @@ class PostsController < ApplicationController
   def show
     respond_to do |format|
       if @post
-        format.html { render :show } # Render HTML view
+        format.html { render :show }
         format.json { render json: @post }
       else
+        flash[:alert] = 'Post not found'
+        format.html { redirect_to posts_path }
         format.json { render json: { error: 'Post not found' }, status: :not_found }
       end
     end
@@ -29,9 +31,11 @@ class PostsController < ApplicationController
   def edit
     respond_to do |format|
       if @post
-        format.html { render :edit } # Render HTML view
+        format.html { render :edit }
         format.json { render json: @post }
       else
+        flash[:alert] = 'Post not found'
+        format.html { redirect_to posts_path }
         format.json { render json: { error: 'Post not found' }, status: :not_found }
       end
     end
@@ -43,9 +47,11 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: "Post was successfully created." }
+        flash[:notice] = 'Post was successfully created.'
+        format.html { redirect_to @post }
         format.json { render :show, status: :created, location: @post }
       else
+        flash.now[:alert] = 'There was an error creating the post.'
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
@@ -55,11 +61,13 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
     if @post.update(post_params)
+      flash[:notice] = 'Post was successfully updated.'
       respond_to do |format|
-        format.html { redirect_to @post, notice: "Post was successfully updated." }
+        format.html { redirect_to @post }
         format.json { render :show, status: :ok, location: @post }
       end
     else
+      flash.now[:alert] = 'There was an error updating the post.'
       respond_to do |format|
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @post.errors, status: :unprocessable_entity }
@@ -71,13 +79,15 @@ class PostsController < ApplicationController
   def destroy
     if @post
       @post.destroy
+      flash[:notice] = 'Post was successfully destroyed.'
       respond_to do |format|
-        format.html { redirect_to posts_path, status: :see_other, notice: "Post was successfully destroyed." }
+        format.html { redirect_to posts_path, status: :see_other }
         format.json { head :no_content }
       end
     else
+      flash[:alert] = 'Post not found.'
       respond_to do |format|
-        format.html { redirect_to posts_path, alert: "Post not found." }
+        format.html { redirect_to posts_path }
         format.json { render json: { error: 'Post not found' }, status: :not_found }
       end
     end
@@ -89,8 +99,9 @@ class PostsController < ApplicationController
   def set_post
     @post = Post.find_by(id: params[:id])
     unless @post
+      flash[:alert] = 'Post not found.'
       respond_to do |format|
-        format.html { redirect_to posts_path, alert: "Post not found." }
+        format.html { redirect_to posts_path }
         format.json { render json: { error: 'Post not found' }, status: :not_found }
       end
     end
