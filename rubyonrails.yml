@@ -30,9 +30,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set execute permissions for brakeman
-        run: chmod +x bin/*
-
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1.179.1
         with:
@@ -54,6 +51,9 @@ jobs:
         uses: ruby/setup-ruby@v1.179.1
         with:
           bundler-cache: true
+      
+      - name: Set execute permissions for brakeman
+        run: chmod +x bin/brakeman
 
       - name: Generate binstubs
         run: bundle binstubs bundler-audit brakeman rubocop
