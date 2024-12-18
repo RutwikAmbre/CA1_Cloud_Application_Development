@@ -34,7 +34,7 @@ jobs:
             set -e  # Exit if any command fails
 
             # Navigate to the app directory
-            cd /home/ubuntu/CA1_Cloud_Application_Development/BlogApp || exit
+            cd /home/ubuntu/CA1_Cloud_Application_Development || exit
 
             # Pull the latest changes from the main branch
             git pull origin main || exit
