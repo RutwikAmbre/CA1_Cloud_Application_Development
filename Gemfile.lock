@@ -79,6 +79,7 @@ GEM
       execjs (~> 2)
     base64 (0.2.0)
     bcrypt (3.1.20)
+    bcrypt_pbkdf (1.1.1)
     bcrypt_pbkdf (1.1.1-x64-mingw-ucrt)
     benchmark (0.4.0)
     bigdecimal (3.1.8)
@@ -120,6 +121,7 @@ GEM
       tzinfo
     execjs (2.10.0)
     ffi (1.17.0-x64-mingw-ucrt)
+    ffi (1.17.0-x86_64-linux-gnu)
     friendly_id (5.5.1)
       activerecord (>= 4.0.0)
     fugit (1.11.1)
@@ -183,6 +185,8 @@ GEM
     net-ssh (7.3.0)
     nio4r (2.7.4)
     nokogiri (1.17.2-x64-mingw-ucrt)
+      racc (~> 1.4)
+    nokogiri (1.17.2-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     ostruct (0.6.1)
@@ -314,6 +318,7 @@ GEM
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
     sqlite3 (2.4.1-x64-mingw-ucrt)
+    sqlite3 (2.4.1-x86_64-linux-gnu)
     sshkit (1.23.2)
       base64
       net-scp (>= 1.1.2)
@@ -325,6 +330,7 @@ GEM
     stringio (3.1.2)
     thor (1.3.2)
     thruster (0.1.9)
+    thruster (0.1.9-x86_64-linux)
     tilt (2.4.0)
     timeout (0.4.3)
     turbo-rails (2.0.11)
@@ -351,6 +357,7 @@ GEM
 
 PLATFORMS
   x64-mingw-ucrt
+  x86_64-linux
 
 DEPENDENCIES
   bootsnap
