@@ -17,30 +17,35 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-      - name: Check if AWS CLI is already installed
+      - name: SSH into EC2 and deploy
         run: |
-          if ! command -v aws &> /dev/null; then
-            echo "AWS CLI not found, installing..."
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
-          else
-            echo "AWS CLI is already installed."
-          fi
+          # Define EC2 instance details
+          EC2_INSTANCE_IP="54.85.241.65"
+          EC2_USER="ubuntu"
+          PEM_KEY_PATH="keyPair.pem"
 
-      - name: Configure AWS CLI
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region us-east-1  # Set your desired region
+          # Ensure the key file has the correct permissions
+          chmod 600 $PEM_KEY_PATH
 
-      - name: SSH into EC2 instance and deploy
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+          # SSH into the EC2 instance and run commands
+          ssh -o StrictHostKeyChecking=no -i $PEM_KEY_PATH $EC2_USER@$EC2_INSTANCE_IP << 'EOF'
+            set -e  # Exit if any command fails
+
+            # Navigate to the app directory
             cd /home/ubuntu/CA1_Cloud_Application_Development/BlogApp || exit
+
+            # Pull the latest changes from the main branch
             git pull origin main || exit
-            bundle install --deployment --without development test || exit
+
+            # Install dependencies and bundle
+            bundle install --deployment || exit
+
+            # Run database migrations
             RAILS_ENV=production bundle exec rake db:migrate || exit
-            RAILS_ENV=production bundle exec assets:precompile || exit
-            sudo systemctl restart puma || exit  # Restart Puma service
+
+            # Precompile assets
+            RAILS_ENV=production bundle exec rake assets:precompile || exit
+
+            # Restart the app (for example, Puma server)
+            sudo systemctl restart puma || exit
           EOF
