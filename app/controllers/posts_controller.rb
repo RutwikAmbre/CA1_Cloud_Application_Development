@@ -54,22 +54,15 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
-    if @post
-      if @post.update(post_params)
-        respond_to do |format|
-          format.html { redirect_to @post, notice: "Post was successfully updated." }
-          format.json { render :show, status: :ok, location: @post }
-        end
-      else
-        respond_to do |format|
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @post.errors, status: :unprocessable_entity }
-        end
+    if @post.update(post_params)
+      respond_to do |format|
+        format.html { redirect_to @post, notice: "Post was successfully updated." }
+        format.json { render :show, status: :ok, location: @post }
       end
     else
       respond_to do |format|
-        format.html { redirect_to posts_path, alert: "Post not found." }
-        format.json { render json: { error: 'Post not found' }, status: :not_found }
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
   end

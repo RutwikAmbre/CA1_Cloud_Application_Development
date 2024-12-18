@@ -1,12 +1,12 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  title: "My First Post"
-  content: "This is the content for the first post."
-  slug: "my-first-post"
+#one:
+#  title: "My First Post"
+#  content: "This is the content for the first post."
+#  slug: "my-first-post"
 
-two:
-  title: "My Second Post"
-  content: "This is the content for the second post."
-  slug: "my-second-post"
+#two:
+#  title: "My Second Post"
+#  content: "This is the content for the second post."
+#  slug: "my-second-post"
 

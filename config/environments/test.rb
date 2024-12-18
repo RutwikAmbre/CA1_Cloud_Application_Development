@@ -5,9 +5,9 @@
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  config.assets.compile = false
-  config.assets.digest = false
-  config.assets.enabled = false
+  #config.assets.compile = false
+  #config.assets.digest = false
+  
 
   config.assets.prefix = "/assets" # Important for correct asset paths.
   config.assets.paths << Rails.public_path.join("assets") # Important for correct asset paths.
