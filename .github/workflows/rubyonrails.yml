@@ -57,6 +57,7 @@ jobs:
         uses: ruby/setup-ruby@v1.179.1
         with:
           bundler-cache: true
+          ruby-version: 3.2.4
       
       # Removed linters and audits since you're not using them
       - name: Run RuboCop linting
