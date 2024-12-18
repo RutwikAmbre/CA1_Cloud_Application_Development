@@ -38,6 +38,11 @@ jobs:
       - name: Set up database schema
         run: bundle exec rails db:schema:load
 
+      - name: Clear tmp and log directories
+        run: |
+          rm -rf tmp/*
+          rm -rf log/*
+
       - name: Run tests
         run: bundle exec rails test
 
