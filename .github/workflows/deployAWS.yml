@@ -34,6 +34,8 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i $PEM_KEY_PATH $EC2_USER@$EC2_INSTANCE_IP << 'EOF'
             set -e  # Exit if any command fails
 
+            export RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
+
             # Navigate to the app directory
             cd /home/ubuntu/CA1_Cloud_Application_Development || exit
 
@@ -41,13 +43,13 @@ jobs:
             git pull origin main || exit
 
             # Install dependencies and bundle
-            bundle install --deployment || exit
+            bundle install || exit
 
             # Run database migrations
             RAILS_ENV=production bundle exec rake db:migrate || exit
 
-            # Precompile assets
-            RAILS_ENV=production bundle exec rake assets:precompile || exit
+            # Run Server
+            RAILS_ENV=production bundle exec rails server --binding 0.0.0.0 --port 3000 || exit
 
             # Restart the app (for example, Puma server)
             sudo systemctl restart puma || exit
