@@ -1,7 +1,6 @@
 require "test_helper"
 
 class PostsControllerTest < ActionDispatch::IntegrationTest
-
   include Devise::Test::IntegrationHelpers
 
   setup do
@@ -32,38 +31,38 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to post_url(Post.last)
   end
 
-  #test "should show post" do
+  # test "should show post" do
   #  get post_url(@post)
   #  assert_response :success
-  #end
+  # end
 
-  #test "should get edit" do
+  # test "should get edit" do
   #  get edit_post_url(@post)
   #  assert_response :success
-  #end
+  # end
 
-  #test "should update post" do
-    # Provide updated attributes for the post
+  # test "should update post" do
+  # Provide updated attributes for the post
   #  updated_attributes = { title: "Updated Title", content: "Updated content", slug: "updated-post"  }
 
   #  patch post_url(@post), params: { post: updated_attributes }
 
-    # Reload the post to ensure changes were applied
+  # Reload the post to ensure changes were applied
   #  @post.reload
   #  assert_equal "Updated content", @post.content
   #  assert_equal "updated-post", @post.slug
   #  assert_equal "Updated Title", @post.title
 
-    # Ensure the post redirects to its show page after updating
+  # Ensure the post redirects to its show page after updating
   #  assert_redirected_to post_url(@post)
-  #end
+  # end
 
-  #test "should destroy post" do
+  # test "should destroy post" do
   #  assert_difference("Post.count", -1) do
   #    delete post_url(@post)
   #  end
 
-    # Ensure the user is redirected to the index after deletion
+  # Ensure the user is redirected to the index after deletion
   #  assert_redirected_to posts_url
-  #end
+  # end
 end

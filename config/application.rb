@@ -26,16 +26,16 @@ module BlogApp
 
     config.assets.enabled = false
 
-    #config.assets.compile = true
+    # config.assets.compile = true
 
     config.api_only = true
 
-    config.assets.precompile += %w( application.js application.css )
+    config.assets.precompile += %w[ application.js application.css ]
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins '*' # Replace '*' with specific origins if needed
-        resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options]
+        origins "*" # Replace '*' with specific origins if needed
+        resource "*", headers: :any, methods: [ :get, :post, :put, :patch, :delete, :options ]
       end
     end
 

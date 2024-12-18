@@ -56,8 +56,11 @@ jobs:
         uses: ruby/setup-ruby@v1.179.1
         with:
           bundler-cache: true
-
+      
       # Removed linters and audits since you're not using them
+      - name: Run RuboCop linting
+        run: bundle exec rubocop
+
 
   deploy:
     runs-on: ubuntu-latest

@@ -3,4 +3,4 @@ module ApplicationHelper
     def assembly_to_s(assembly)
       "Assembly with ID: #{assembly.id} and name: #{assembly.name}"
     end
-  end
+end

@@ -4,8 +4,6 @@ class Post < ApplicationRecord
 
   # Ensures the slug is unique
   validates :slug, uniqueness: true
-  validates :title, presence: true 
-  validates :content, presence: true 
-
+  validates :title, presence: true
+  validates :content, presence: true
 end
-
