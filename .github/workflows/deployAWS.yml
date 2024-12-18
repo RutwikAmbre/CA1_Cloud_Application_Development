@@ -20,6 +20,8 @@ jobs:
       - name: SSH into EC2 and deploy
         run: |
           # Define EC2 instance details
+          echo "${{ secrets.EC2_SSH_KEY }}" > keyPair.pem
+
           EC2_INSTANCE_IP="54.85.241.65"
           EC2_USER="ubuntu"
           PEM_KEY_PATH="keyPair.pem"
