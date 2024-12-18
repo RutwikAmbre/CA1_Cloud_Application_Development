@@ -1,4 +1,4 @@
-#CI/CD
+#CI/CD 1
 name: "Deploy to AWS EC2"
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
             set -e  # Exit if any command fails
 
             sudo fuser -k 3000/tcp || true
-            
+
             sudo ufw allow 22
 
             sudo ufw allow 3000
