@@ -34,7 +34,11 @@ jobs:
         uses: ruby/setup-ruby@v1.179.1
         with:
           bundler-cache: true
-
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.4
+  
       - name: Set up database schema
         run: bundle exec rails db:schema:load
 
