@@ -42,8 +42,6 @@ jobs:
 
             sudo ufw reload
 
-            sudo apt-get install -y libcares2 libnode109 node-acorn node-busboy node-cjs-module-lexer node-undici node-xtend nodejs nodejs-doc
-
             export RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
 
             # Navigate to the app directory
@@ -56,7 +54,7 @@ jobs:
             bundle install || exit
 
             # Run database migrations
-            RAILS_ENV=production bundle exec rake db:migrate || exit
+            RAILS_ENV=production bundle exec rails db:migrate || exit
 
             # Run Server
             RAILS_ENV=production bundle exec rails server --binding 0.0.0.0 --port 3000 || exit
