@@ -5,10 +5,11 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     @posts = Post.all
-    respond_to do |format|
+    render json: @posts
+    #respond_to do |format|
       #format.html  # This will render the default `index.html.erb`
-      format.json { render json: @posts }
-    end
+      #format.json { render json: @posts }
+    #end
   end
 
   # GET /posts/1 or /posts/1.json
