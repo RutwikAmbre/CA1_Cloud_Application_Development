@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     @posts = Post.all
-    #render json: @posts
+    render json: @posts
     #respond_to do |format|
     #  format.html
     #  format.json { render json: @posts }
@@ -52,8 +52,8 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         # On success:
-        format.html {redirect_to @post}
-        #format.html { head :no_content, status: :created }
+        #format.html {redirect_to @post}
+        format.html { head :no_content, status: :created }
         format.json { render json: @post, status: :created}
       else
         # On failure:

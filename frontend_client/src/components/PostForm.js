@@ -24,9 +24,9 @@ const PostForm = () => {
     event.preventDefault();
 
     // Client-side validation
-    if (title.length > 10) {
+    if (title.length >= 20) {
       setShowAlert(true);  // Show alert
-      setAlertMessage("Title can't be more than 10 characters.");
+      setAlertMessage("Title can't be more than 20 characters.");
       return;
     }
 

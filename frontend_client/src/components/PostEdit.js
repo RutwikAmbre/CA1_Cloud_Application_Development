@@ -38,8 +38,8 @@ const PostEdit = () => {
   const handleUpdatePost = async (e) => {
     e.preventDefault();
 
-    if (title.length <= 10) {
-      setErrorMessage('Title must be at least 10 characters long');
+    if (title.length >= 20) {
+      setErrorMessage('Title must be at least 20 characters long');
       return;
     }
     if (content.length <= 20) {
