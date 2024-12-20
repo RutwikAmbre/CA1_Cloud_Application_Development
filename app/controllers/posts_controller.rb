@@ -52,7 +52,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         # On success:
-        format.html { render :show, status: :created }
+        format.html { head :no_content, status: :created }
         format.json { render json: @post, status: :created}
       else
         # On failure:
