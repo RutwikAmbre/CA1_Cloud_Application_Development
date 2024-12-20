@@ -80,3 +80,10 @@
   display: block; /* Show detailed view on hover */
 }
 
+body {
+  background-color: #f4f4f9;  /* Light gray background */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+

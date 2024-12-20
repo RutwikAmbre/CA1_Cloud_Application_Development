@@ -11,6 +11,7 @@ const PostEdit = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [showAlert, setShowAlert] = useState(false);  // State to control the alert visibility
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Fetch the list of posts when the component loads
   useEffect(() => {
@@ -36,6 +37,16 @@ const PostEdit = () => {
   // Handle form submission to update the post
   const handleUpdatePost = async (e) => {
     e.preventDefault();
+
+    if (title.length <= 10) {
+      setErrorMessage('Title must be at least 10 characters long');
+      return;
+    }
+    if (content.length <= 20) {
+      setErrorMessage('Content must be at least 20 characters long');
+      return;
+    }
+    
     try {
       const response = await axios.put(`${API_URL}/posts/${selectedPost.id}`, {
         post: { title, content },
@@ -76,6 +87,13 @@ const PostEdit = () => {
       {showAlert && (
         <Alert variant="success" className="alert-dismissible fade show" role="alert">
           <strong>Success!</strong> The post has been successfully updated.
+        </Alert>
+      )}
+
+       {/* Display error message if title or content length is invalid */}
+       {errorMessage && (
+        <Alert variant="danger" className="alert-dismissible fade show" role="alert">
+          <strong>Error!</strong> {errorMessage}
         </Alert>
       )}
 
