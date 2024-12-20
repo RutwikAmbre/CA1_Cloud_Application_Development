@@ -53,6 +53,8 @@ jobs:
             # Install dependencies and bundle
             bundle install || exit
 
+            RAILS_ENV=production rails assets:clobber
+
             RAILS_ENV=production bundle exec rails assets:precompile || exit
 
             # Run database migrations
