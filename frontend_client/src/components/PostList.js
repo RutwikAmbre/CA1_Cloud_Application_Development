@@ -10,7 +10,7 @@ function PostList({ setShowForm }) {
 
   useEffect(() => {
     // Fetch posts from the Rails backend API
-    axios.get(`${API_URL}/posts`)  // Specify the full API URL with the correct port
+    axios.get(`${API_URL}/posts.json`)  // Specify the full API URL with the correct port
       .then(response => {
         setPosts(response.data);
       })
