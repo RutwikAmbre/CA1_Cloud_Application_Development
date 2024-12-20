@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   def index
     @posts = Post.all
     respond_to do |format|
-      format.html  # This will render the default `index.html.erb`
+      #format.html  # This will render the default `index.html.erb`
       format.json { render json: @posts }
     end
   end
