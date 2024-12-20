@@ -1,4 +1,4 @@
-#CI/CD 2
+#CI/CD 3
 name: "Deploy to AWS EC2"
 on:
   push:
