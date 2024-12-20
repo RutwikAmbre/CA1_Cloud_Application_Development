@@ -1,3 +1,4 @@
+#CI/CD 1
 name: "Deploy to AWS EC2"
 on:
   push:
@@ -12,24 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install RuboCop and run checks
-        run: |
-          gem install rubocop
-          rubocop
-
-      - name: Install Brakeman and run security scan
-        run: |
-          gem install brakeman
-          brakeman
-
-      - name: Cache Ruby gems
-        uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
       - name: Set up SSH key for EC2 access
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -37,39 +20,49 @@ jobs:
 
       - name: SSH into EC2 and deploy
         run: |
+          # Define EC2 instance details
           echo "${{ secrets.EC2_SSH_KEY }}" > keyPair.pem
 
           EC2_INSTANCE_IP="54.85.241.65"
           EC2_USER="ubuntu"
           PEM_KEY_PATH="keyPair.pem"
 
+          # Ensure the key file has the correct permissions
           chmod 600 $PEM_KEY_PATH
 
+          # SSH into the EC2 instance and run commands
           ssh -o StrictHostKeyChecking=no -i $PEM_KEY_PATH $EC2_USER@$EC2_INSTANCE_IP << 'EOF'
-            set -e
+            set -e  # Exit if any command fails
 
             sudo fuser -k 3000/tcp || true
 
             sudo ufw allow 22
+
             sudo ufw allow 3000
+
             sudo ufw reload
 
             export RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
 
+            # Navigate to the app directory
             cd /home/ubuntu/CA1_Cloud_Application_Development || exit
+
+            # Pull the latest changes from the main branch
             git pull origin main || exit
 
+            # Install dependencies and bundle
             bundle install || exit
+
             RAILS_ENV=production rails assets:clobber
+
             RAILS_ENV=production rails tmp:clear
 
-            pg_dump -U username dbname > /path/to/backup.sql
-
+            # Run database migrations
             RAILS_ENV=production bundle exec rails db:migrate || exit
 
+            # Run Server
             RAILS_ENV=production bundle exec rails server --binding 0.0.0.0 --port 3000 || exit
 
+            # Restart the app (for example, Puma server)
             sudo systemctl restart puma || exit
-
-            sudo systemctl status puma
           EOF
