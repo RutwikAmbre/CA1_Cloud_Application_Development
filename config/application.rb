@@ -1,6 +1,6 @@
 require_relative "boot"
 # Instead of require "rails/all", require only the necessary parts
-require "rails"
+require "rails/all"
 require "active_model/railtie"
 require "active_job/railtie"
 require "active_record/railtie"
@@ -21,6 +21,9 @@ module BlogApp
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
+    
+    #config.eager_load_paths += %W(#{config.root}/app/controllers/)
+    #config.eager_load_paths += %W(#{config.root}/app/controllers/api)
 
     config.autoload_lib(ignore: %w[assets tasks])
 
@@ -28,7 +31,7 @@ module BlogApp
 
     # config.assets.compile = true
 
-    config.api_only = true
+    # config.api_only = true
 
     config.assets.precompile += %w[ application.js application.css ]
 
@@ -38,6 +41,8 @@ module BlogApp
         resource "*", headers: :any, methods: [ :get, :post, :put, :patch, :delete, :options ]
       end
     end
+
+    config.autoload_paths += %W(#{config.root}/app/controllers/api)
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

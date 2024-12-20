@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, ListGroup, Alert } from 'react-bootstrap';
+import { Card, ListGroup, Alert, Button } from 'react-bootstrap';
 
 const API_URL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_LOCAL_API_URL : process.env.REACT_APP_PROD_API_URL;
 
-function PostList() {
+function PostList({ setShowForm }) {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
 
@@ -24,6 +24,7 @@ function PostList() {
     <div className="container mt-4">
       <h2>Posts</h2>
       {error && <Alert variant="danger">{error}</Alert>}
+
       <div className="row">
         {posts.map(post => (
           <div className="col-md-4 mb-4" key={post.id}>

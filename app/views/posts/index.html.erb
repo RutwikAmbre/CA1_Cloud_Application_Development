@@ -1,20 +1,30 @@
-<div class="container mt-5">
-  <h1 class="text-center mb-4">Posts</h1>
-  
-  <div class="row">
+<h1>Posts</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th>Slug</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
     <% @posts.each do |post| %>
-      <div class="col-md-4 mb-3">
-        <div class="card">
-          <img class="card-img-top" src="<%= post.image_url %>" alt="Card image">
-          <div class="card-body">
-            <h5 class="card-title"><%= post.title %></h5>
-            <p class="card-text"><%= truncate(post.content, length: 100) %></p>
-            <a href="<%= post_path(post) %>" class="btn btn-primary">Read More</a>
-          </div>
-        </div>
-      </div>
+      <tr id="post_<%= post.id %>">
+        <td><%= post.title %></td>
+        <td><%= truncate(post.content, length: 50) %></td>
+        <td><%= post.slug %></td>
+        <td>
+          <%= link_to 'Show', post_path(post), class: 'btn btn-primary' %>
+          
+          <%= form_for(post, method: :delete, class: 'd-inline') do |f| %>
+            <%= f.submit 'Delete', class: 'btn btn-danger', data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </td>
+      </tr>
     <% end %>
-  </div>
-</div>
+  </tbody>
+</table>
 
-
+<%= link_to 'New Post', new_post_path, class: 'btn btn-primary' %>

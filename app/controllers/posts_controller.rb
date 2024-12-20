@@ -1,26 +1,27 @@
 class PostsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [ :create ]
-  before_action :set_post, only: [ :show, :edit, :update, :destroy ]
+  skip_before_action :verify_authenticity_token, only: [:create, :update]
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   # GET /posts or /posts.json
   def index
     @posts = Post.all
-    render json: @posts
+    #render :index
+    #render json: @posts
   end
 
   # GET /posts/1 or /posts/1.json
   def show
-    respond_to do |format|
-      if @post
-        format.html { render :show }
-        format.json { render json: @post }
-      else
-        flash[:alert] = "Post not found"
-        format.html { redirect_to posts_path }
-        format.json { render json: { error: "Post not found" }, status: :not_found }
+    @post = Post.find_by(id: params[:id]) # Use find_by to avoid exception
+    if @post
+      respond_to do |format|
+        format.html { render :show, status: :ok } # Render HTML view for show
+        format.json { render json: @post } 
       end
+    else
+      redirect_to posts_path, alert: "Post not found. Please put a correct"
     end
   end
+  
 
   # GET /posts/new
   def new
@@ -29,12 +30,12 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+    
     respond_to do |format|
       if @post
         format.html { render :edit }
         format.json { render json: @post }
       else
-        flash[:alert] = "Post not found"
         format.html { redirect_to posts_path }
         format.json { render json: { error: "Post not found" }, status: :not_found }
       end
@@ -47,11 +48,11 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        flash[:notice] = "Post was successfully created."
-        format.html { redirect_to @post }
-        format.json { render :show, status: :created, location: @post }
+        # On success:
+        format.html { render :show, status: :created }
+        format.json { render json: @post, status: :created}
       else
-        flash.now[:alert] = "There was an error creating the post."
+        # On failure:
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
@@ -60,16 +61,16 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
+    @post = Post.find_by!(id: params[:id])
+    
     if @post.update(post_params)
-      flash[:notice] = "Post was successfully updated."
       respond_to do |format|
-        format.html { redirect_to @post }
-        format.json { render :show, status: :ok, location: @post }
+        format.html { render :show, status: :ok }
+        format.json { render json: @post, status: :ok }
       end
     else
-      flash.now[:alert] = "There was an error updating the post."
       respond_to do |format|
-        format.html { render :edit, status: :unprocessable_entity }
+        #format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
@@ -77,17 +78,17 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
+    @post = Post.find_by!(id: params[:id])  # Explicitly set @post
+
     if @post
       @post.destroy
-      flash[:notice] = "Post was successfully destroyed."
       respond_to do |format|
-        format.html { redirect_to posts_path, status: :see_other }
-        format.json { head :no_content }
+        format.html { head :no_content }
+        format.json { render json: { message: "Post was successfully destroyed" }, status: :ok }
       end
     else
-      flash[:alert] = "Post not found."
       respond_to do |format|
-        format.html { redirect_to posts_path }
+        #format.html { redirect_to posts_url}
         format.json { render json: { error: "Post not found" }, status: :not_found }
       end
     end
@@ -97,18 +98,15 @@ class PostsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_post
-    @post = Post.find_by(id: params[:id])
-    unless @post
-      flash[:alert] = "Post not found."
-      respond_to do |format|
-        format.html { redirect_to posts_path }
-        format.json { render json: { error: "Post not found" }, status: :not_found }
-      end
+    @post = Post.find_by!(id: params[:id])
+    if @post.nil?
+      redirect_to posts_path
     end
   end
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:title, :content, :slug)
+    params.require(:post).permit(:title, :content)
   end
+
 end
