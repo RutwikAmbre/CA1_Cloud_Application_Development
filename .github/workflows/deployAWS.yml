@@ -53,15 +53,15 @@ jobs:
             # Install dependencies and bundle
             bundle install || exit
 
-            RAILS_ENV=production rails assets:clobber
+            bundle rails assets:clobber
 
-            RAILS_ENV=production bundle exec rails assets:precompile || exit
+            bundle exec rails assets:precompile || exit
 
             # Run database migrations
-            RAILS_ENV=production bundle exec rails db:migrate || exit
+             bundle exec rails db:migrate || exit
 
             # Run Server
-            RAILS_ENV=production bundle exec rails server --binding 0.0.0.0 --port 3000 || exit
+             bundle exec rails server --binding 0.0.0.0 --port 3000 || exit
 
             # Restart the app (for example, Puma server)
             sudo systemctl restart puma || exit
