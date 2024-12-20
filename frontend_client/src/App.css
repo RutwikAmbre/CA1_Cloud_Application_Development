@@ -36,3 +36,47 @@
     transform: rotate(360deg);
   }
 }
+
+/* styles.css */
+
+/* Global styles for post cards */
+.post-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;  /* Set the card width to fill the available space */
+  height: 100%; /* Adjust the height to your preference */
+  padding: 5px;  /* Increase padding for larger content */
+  box-sizing: border-box; /* Make sure padding doesn't affect size calculation */
+  display: flex;
+  flex-direction: column;  /* Ensure children (like card body) are stacked vertically */
+}
+
+.post-card .card-body {
+  flex: 1;  /* Makes the card body grow to fill remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribute text evenly */
+}
+
+.post-card:hover {
+  transform: scale(1.1); /* Enlarge the card on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Add a shadow effect */
+}
+
+.post-card .post-details {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  width: 90%;
+  z-index: 10;
+}
+
+.post-card:hover .post-details {
+  display: block; /* Show detailed view on hover */
+}
+

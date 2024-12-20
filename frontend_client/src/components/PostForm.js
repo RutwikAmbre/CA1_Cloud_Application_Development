@@ -1,22 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Form, Modal, Container } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Form, Container, Alert } from 'react-bootstrap';
 
 const API_URL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_LOCAL_API_URL : process.env.REACT_APP_PROD_API_URL;
 
 const PostForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
-  // Handle form submission for creating a post
+  // Close the alert after a few seconds
+  useEffect(() => {
+    if (showAlert) {
+      const timer = setTimeout(() => {
+        setShowAlert(false);
+      }, 3000); // Close alert after 3 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [showAlert]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Client-side validation
+    if (title.length > 10) {
+      setShowAlert(true);  // Show alert
+      setAlertMessage("Title can't be more than 10 characters.");
+      return;
+    }
+
+    if (content.length < 20) {
+      setShowAlert(true);  // Show alert
+      setAlertMessage("Content must be at least 20 characters.");
+      return;
+    }
+
     try {
       const response = await axios.post(`${API_URL}/posts`, {
         post: { title, content },
       });
-      console.log('Post created:', response.data);
+
+      setShowAlert(true);  // Show alert
+      setAlertMessage("Post was successfully created.");
+
       setTitle('');
       setContent('');
     } catch (error) {
@@ -27,6 +54,11 @@ const PostForm = () => {
   return (
     <Container className="mt-5">
       <h2>Create a New Post</h2>
+      {showAlert && (
+        <Alert variant={alertMessage.includes("successfully") ? "success" : "danger"}>
+          {alertMessage}
+        </Alert>
+      )}
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="postTitle">
           <Form.Label>Title</Form.Label>

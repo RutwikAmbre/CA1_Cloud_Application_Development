@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import { Button, Container, Row, Col, Alert, Card } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const API_URL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_LOCAL_API_URL : process.env.REACT_APP_PROD_API_URL;
 
@@ -68,7 +69,7 @@ const PostDelete = () => {
 
   return (
     <Container>
-      <h2>Please select which post to delete</h2>
+      <h2 className="my-4">Please select which post to delete</h2>
 
       {/* Display success or error alert */}
       {showAlert && (
@@ -77,17 +78,20 @@ const PostDelete = () => {
         </Alert>
       )}
 
-      {/* List of posts */}
+      {/* List of posts with enhanced card design */}
       <Row>
         {posts.map((post) => (
-          <Col key={post.id} md={4} className="mb-3">
-            <div
+          <Col key={post.id} md={4} className="mb-4">
+            <Card 
+              style={{ cursor: 'pointer' }} 
+              className="post-card shadow-sm border-light rounded"
               onClick={() => handleSelectPost(post)}
-              style={{ cursor: 'pointer', border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}
             >
-              <h5>{post.title}</h5>
-              <p>{post.content.slice(0, 100)}...</p>
-            </div>
+              <Card.Body>
+                <Card.Title>{post.title}</Card.Title>
+                <Card.Text>{post.content.slice(0, 100)}...</Card.Text>
+              </Card.Body>
+            </Card>
           </Col>
         ))}
       </Row>

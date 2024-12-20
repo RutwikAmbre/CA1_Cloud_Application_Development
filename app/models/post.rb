@@ -3,8 +3,8 @@ class Post < ApplicationRecord
   friendly_id :title, use: :slugged
 
   # Ensures the slug is unique
-  validates :title, presence: true
-  validates :content, presence: true
+  validates :title, presence: true, length: { maximum: 10, message: "Title can't be more than 10 characters." }
+  validates :content, presence: true, length: { minimum: 20, message: "Content must be at least 20 characters." }
   validates :slug, uniqueness: true
 
   def should_generate_new_friendly_id?
