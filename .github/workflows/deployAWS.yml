@@ -42,6 +42,8 @@ jobs:
 
             sudo ufw reload
 
+            sudo apt-get install nodejs
+            
             export RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
 
             # Navigate to the app directory
