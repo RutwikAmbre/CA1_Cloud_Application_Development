@@ -55,6 +55,8 @@ jobs:
 
             RAILS_ENV=production rails assets:clobber
 
+            RAILS_ENV=production rails tmp:clear
+
             # Run database migrations
             RAILS_ENV=production bundle exec rails db:migrate || exit
 
